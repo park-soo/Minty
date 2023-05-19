@@ -46,11 +46,11 @@ public class User {
     private String gender;
 
     // 레벨, 경험치, 잔액 추가
-    @Column(nullable = false,name = "level", columnDefinition = "INT DEFAULT 1")
+    @Column(nullable = false,name = "level")
     private int level;
-    @Column(nullable = false,name = "exp", columnDefinition = "INT DEFAULT 0")
+    @Column(nullable = false,name = "exp")
     private int exp;
-    @Column(nullable = false,name = "balance", columnDefinition = "INT DEFAULT 0" )
+    @Column(nullable = false,name = "balance")
     private int balance;
 
 
@@ -73,6 +73,9 @@ public class User {
         user.setGender(joinDto.getGender());
         user.setNickName(joinDto.getNickName());
         user.setRole(Role.USER);
+        user.setLevel(1);
+        user.setExp(0);
+        user.setBalance(0);
         return user;
     }
 }
