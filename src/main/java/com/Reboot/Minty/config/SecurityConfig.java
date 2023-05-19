@@ -41,14 +41,14 @@ public class SecurityConfig {
 //        http.csrf().disable();
         http.authorizeRequests()
                 .requestMatchers("/css/**", "/js/**", "/image/**").permitAll()
-                .requestMatchers("/login/**", "/join/**", "/map/**", "/").permitAll()
+                .requestMatchers("/login/**", "/join/**", "/map/**","/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().ignoringRequestMatchers(
                         new AntPathRequestMatcher("/h2-console/**")
                 ).and().headers().addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN
-                )).and().formLogin().loginPage("/login").usernameParameter("email").defaultSuccessUrl("/")
+                )).and().formLogin().loginPage("/login").usernameParameter("email").defaultSuccessUrl("/").failureUrl("/login/error")
                 .and().oauth2Login(
                         oauth2Login -> oauth2Login
                                 .loginPage("/login").successHandler(authenticationSuccessHandler())
