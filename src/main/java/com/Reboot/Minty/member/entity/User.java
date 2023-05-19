@@ -5,6 +5,7 @@ import com.Reboot.Minty.member.constant.Role;
 import com.Reboot.Minty.member.dto.JoinDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -44,18 +45,14 @@ public class User {
     @Column(nullable = false, name = "gender")
     private String gender;
 
+    // 레벨, 경험치, 잔액 추가
+    @Column(nullable = false,name = "level", columnDefinition = "INT DEFAULT 1")
+    private int level;
+    @Column(nullable = false,name = "exp", columnDefinition = "INT DEFAULT 0")
+    private int exp;
+    @Column(nullable = false,name = "balance", columnDefinition = "INT DEFAULT 0" )
+    private int balance;
 
-
-    public User update(String name, String email, Role role, String ageRange, String mobile, String gender) {
-        this.name = name;
-        this.email = email;
-        this.role = role;
-        this.nickName = nickName;
-        this.ageRange = ageRange;
-        this.mobile = mobile;
-        this.gender = gender;
-        return this;
-    }
 
     public User(String name, String email, String ageRange, String mobile,String gender) {
         this.name = name;
