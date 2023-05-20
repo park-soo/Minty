@@ -69,36 +69,42 @@ public class SecurityConfig {
             OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
             boolean hasRegisterUserAuthority = token.getAuthorities().stream()
                     .anyMatch(auth -> "REGISTER_USER".equals(auth.getAuthority()));
+            OAuth2User oAuth2User = token.getPrincipal();
+            Map<String, Object> kakao_account = (Map<String, Object>) oAuth2User.getAttribute("kakao_account");
+            Map<String, Object> naver_account = (Map<String, Object>) oAuth2User.getAttribute("response");
             if (hasRegisterUserAuthority) {
-                OAuth2User oAuth2User = token.getPrincipal();
-                Map<String, Object> kakao_account = (Map<String, Object>) oAuth2User.getAttribute("kakao_account");
-                Map<String, Object> naver_account = (Map<String, Object>) oAuth2User.getAttribute("response"); // 네이버에서 받은 데이터에서 프로필 정보가 담긴 response 값을 꺼냅니다.
                 HttpSession session = request.getSession();
-                if(kakao_account!=null) {
+                if (kakao_account != null && kakao_account.containsKey("email")) {
                     JoinDto joinDto = new JoinDto();
-                    joinDto.setName((String)kakao_account.get("name"));
+                    joinDto.setName((String) kakao_account.get("name"));
                     joinDto.setEmail((String) kakao_account.get("email"));
-                    joinDto.setAgeRange((String)kakao_account.get("age_range"));
-                    joinDto.setMobile((String)kakao_account.get("phone_number"));
-                    joinDto.setGender((String)kakao_account.get("gender"));
-                    session.setAttribute("joinDto",joinDto);
-                }else{
+                    joinDto.setAgeRange((String) kakao_account.get("age_range"));
+                    joinDto.setMobile((String) kakao_account.get("phone_number"));
+                    joinDto.setGender((String) kakao_account.get("gender"));
+                    session.setAttribute("joinDto", joinDto);
+                } else if (naver_account != null && naver_account.containsKey("email")) {
                     JoinDto joinDto = new JoinDto();
-                    joinDto.setName((String)naver_account.get("name"));
+                    joinDto.setName((String) naver_account.get("name"));
                     joinDto.setEmail((String) naver_account.get("email"));
-                    String age =  (String)naver_account.get("age");
-                    age = age.replace("-","~");
+                    String age = (String) naver_account.get("age");
+                    age = age.replace("-", "~");
                     joinDto.setAgeRange(age);
-                    joinDto.setMobile((String)naver_account.get("mobile"));
+                    joinDto.setMobile((String) naver_account.get("mobile"));
                     String gender = (String) naver_account.get("gender");
-                    if(gender.equals("M")) gender="male";
-                    else gender ="female";
+                    if (gender.equals("M")) gender = "male";
+                    else gender = "female";
                     joinDto.setGender(gender);
-                    session.setAttribute("joinDto",joinDto);
+                    session.setAttribute("joinDto", joinDto);
                 }
 
                 response.sendRedirect("/join");
-            } else{
+            } else {
+                HttpSession session = request.getSession();
+                if (kakao_account != null && kakao_account.containsKey("email")) {
+                    session.setAttribute("userEmail", userService.getUserInfo((String)kakao_account.get("email")).getEmail());
+                }else{
+                    session.setAttribute("userEmail", userService.getUserInfo((String)naver_account.get("email")).getEmail());
+                }
                 response.sendRedirect("/loginSuccess");
             }
         };

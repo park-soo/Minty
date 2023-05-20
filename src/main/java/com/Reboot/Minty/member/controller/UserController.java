@@ -60,7 +60,7 @@ public class UserController {
             model.addAttribute("errorMessage", e.getMessage());
             return "member/join";
         }
-//        session.removeAttribute("joinDto");
+        session.removeAttribute("joinDto");
         return "redirect:/map";
     }
 

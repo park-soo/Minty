@@ -3,6 +3,7 @@
     import com.Reboot.Minty.member.entity.User;
     import com.Reboot.Minty.member.oauth2.OAuthAttributes;
     import com.Reboot.Minty.member.repository.UserRepository;
+    import jakarta.servlet.http.HttpSession;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
     import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@
     import org.springframework.security.oauth2.core.user.OAuth2User;
     import org.springframework.stereotype.Service;
 
+    import java.net.http.HttpRequest;
     import java.util.Collections;
 
     @Service
@@ -46,6 +48,7 @@
                 );
             } else {
                 // 현재 인증 정보 확인
+
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 if (authentication == null) {
                     // 인증 정보가 없으면 새로 생성하여 설정

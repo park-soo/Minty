@@ -5,10 +5,15 @@ import com.Reboot.Minty.member.entity.UserLocation;
 import com.Reboot.Minty.member.repository.UserLocationRepository;
 import com.Reboot.Minty.member.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -27,6 +32,11 @@ public class UserService implements UserDetailsService {
     public Long getUserId(String email){
         User user = userRepository.findByEmail(email);
         return user.getId();
+    }
+
+    public User getUserInfo(String email){
+        User user = userRepository.findByEmail(email);
+        return user;
     }
 
     // 중복 회원 확인
@@ -66,13 +76,25 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
-        if(user ==null){
+        if (user == null) {
             throw new UsernameNotFoundException(email);
         }
+
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
-                .password(user.getPassword()) // 패스워드도 설정해야 합니다
-                .roles(user.getRole().toString())
+                .password(user.getPassword())
+                .authorities(authorities)
                 .build();
+    }
+
+    @Transactional
+    public void updateBalance(String userEmail, Integer amount) {
+        User user = userRepository.findByEmail(userEmail);
+        if (user != null) {
+            user.setBalance(user.getBalance() + amount);
+        }
     }
 }

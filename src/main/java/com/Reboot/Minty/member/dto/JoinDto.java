@@ -29,6 +29,7 @@ public class JoinDto {
     private String password;
 
     @NotEmpty(message = "필수")
+
     private String nickName;
 
     @Column(name="age_range")

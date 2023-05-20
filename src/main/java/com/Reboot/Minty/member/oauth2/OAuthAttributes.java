@@ -63,7 +63,5 @@ public class OAuthAttributes {
                 (String) response.get("gender"));
     }
 
-    // .. getter/setter 생략
-
 
 }
