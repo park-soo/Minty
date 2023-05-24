@@ -65,7 +65,9 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() { return "member/login";}
+    public String login() {
+        return "member/login";
+    }
 
 
     @GetMapping(value = "/login/error")

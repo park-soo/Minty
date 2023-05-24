@@ -3,11 +3,11 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <title>구매하기</title>
+    <title>충전하기</title>
     <meta charset="UTF-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <link rel="stylesheet" href="bulma.min.css">
+    <link rel="stylesheet" href="./bulma.min.css">
 
     <script src="https://js.tosspayments.com/v1"></script>
 </head>
@@ -18,12 +18,37 @@
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
-                토스페이먼츠 연동 샘플
+                잔고 충전하기
             </h1>
 
         </div>
     </div>
 </section>
+
+<label for="amount">충전 금액</label>
+<input type="text" id="amount" name="amount" placeholder="충전할 금액을 입력하세요." required oninput="updateAmount()"/>
+
+<div>
+    <button type="button" onclick="addAmount(100000)">+100,000</button>
+    <button type="button" onclick="addAmount(10000)">+10,000</button>
+    <button type="button" onclick="addAmount(1000)">+1,000</button>
+</div>
+
+<script>
+    let amount = 0;
+
+    // input 요소에 입력된 값을 amount 변수에 반영하는 함수
+    function updateAmount() {
+        amount = parseInt(document.getElementById('amount').value || 0);
+    }
+
+    function addAmount(value) {
+        updateAmount(); // 입력된 값 반영
+        amount += value;
+        document.getElementById('amount').value = amount;
+    }
+</script>
+
 <section class="section ">
     <div class="container">
         <button class="button is-link" onclick="pay('카드',jsons.card);">일반결제창</button>
@@ -38,12 +63,15 @@
 </body>
 
 <script th:inline="javascript">
-    let amount = 2000000;
 
     let tossPayments = TossPayments([[${clientKey}]]);
 
     function pay(method, requestJson) {
+
+        requestJson.amount = amount; // 선택된 금액으로 변경
+
         console.log(requestJson);
+
         tossPayments.requestPayment(method, requestJson)
             .catch(function (error) {
 
@@ -66,14 +94,14 @@
         "card": {
             "amount": amount,
             "orderId": "sample-" + orderId,
-            "orderName": "토스 티셔츠 외 2건",
+            "orderName": "Minty 충전하기",
             "successUrl": successUrl,
             "failUrl": failUrl,
             "cardCompany": null,
             "cardInstallmentPlan": null,
             "maxCardInstallmentPlan": null,
             "useCardPoint": false,
-            "customerName": "박토스",
+            "customerName": "권비",
             "customerEmail": null,
             "customerMobilePhone": null,
             "taxFreeAmount": null,
@@ -86,7 +114,7 @@
 
             "amount": amount,
             "orderId": "sample-" + orderId,
-            "orderName": "토스 티셔츠 외 2건",
+            "orderName": "Minty 충전하기",
             "successUrl": successUrl,
             "failUrl": failUrl,
             "validHours": 72,
@@ -105,7 +133,7 @@
 
             "amount": amount,
             "orderId": "sample-" + orderId,
-            "orderName": "토스 티셔츠 외 2건",
+            "orderName": "Minty 충전하기",
             "successUrl": successUrl,
             "failUrl": failUrl,
             "customerName": "박토스",
@@ -122,7 +150,7 @@
 
             "amount": amount,
             "orderId": "sample-" + orderId,
-            "orderName": "토스 티셔츠 외 2건",
+            "orderName": "Minty 충전하기",
             "successUrl": successUrl,
             "failUrl": failUrl,
             "mobileCarrier": null
@@ -132,7 +160,7 @@
         "certificate": { //상품권 결제창
             "amount": amount,
             "orderId": "sample-" + orderId,
-            "orderName": "토스 티셔츠 외 2건",
+            "orderName": "Minty 충전하기",
             "successUrl": successUrl,
             "failUrl": failUrl
         },
@@ -140,14 +168,14 @@
         "bookcert": { //도서문화상품권 결제창
             "amount": amount,
             "orderId": "sample-" + orderId,
-            "orderName": "토스 티셔츠 외 2건",
+            "orderName": "Minty 충전하기",
             "successUrl": successUrl,
             "failUrl": failUrl
         },
         "gamecert": { // 게임문화상품권 결제창
             "amount": amount,
             "orderId": "sample-" + orderId,
-            "orderName": "토스 티셔츠 외 2건",
+            "orderName": "Minty 충전하기",
             "successUrl": successUrl,
             "failUrl": failUrl
         }
