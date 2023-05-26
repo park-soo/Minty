@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="footer">
+  <head>
+    <style>
+  footer {
+    background-color: #f2f2f2;
+    padding: 3px;
+    color: #808080;
+    font-size: 12px;
+    text-align: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .footer-links {
+    margin-bottom: 10px;
+  }
+
+  .footer-links a {
+    display: inline-block;
+    margin-right: 10px;
+    color: #808080;
+    text-decoration: none;
+  }
+
+  .footer-info p {
+    margin: 0;
+  }
+  .remote{
+    position: fixed;
+    bottom: 155px;
+    right: 0;
+    transition: top 0.3s ease-in-out;
+    z-index: 2;
+  }
+  </style>
+  </head>
+  <div class="remote">
+    <button href="#">고객문의</button>
+    <button  href="#">글쓰기</button>
+  </div>
+  <footer class="footer">
+    Team Reboot <br />
+    주소 서울시 금천구 가산디지털2로 101 (가산동) 한라원앤원타워 B동 3층 (KOSMO)
+    <br />
+    전화 1234-1234 문의 Reboot@naver.com <br />
+    <div class="footer-links">
+      <br />
+      <a href="#">
+        <img src="/image/Customer.PNG" alt="로고 이미지" width="30px" height="30px" />
+        <br>
+        고객센터
+      </a>
+
+      <a href="#">
+        <img src="/image/ad.PNG" alt="로고 이미지" width="30px" height="30px" />
+        <br>
+        광고문의
+      </a>
+
+    </div>
+    <div class="footer-info">
+      <p>© 2023 Your Company. All rights reserved.</p>
+    </div>
+  </footer>
+  </div>
+</th:block>
+</html>
