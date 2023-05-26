@@ -76,7 +76,6 @@ public class UserController {
         return "member/login";
     }
 
-
     @PostMapping("/saveLocation")
     public String saveLocation(@ModelAttribute JoinLocationDto joinLocationDto, HttpSession session) {
         // Get location and address information

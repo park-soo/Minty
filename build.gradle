@@ -32,12 +32,17 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.querydsl:querydsl-jpa'
+	implementation 'org.webjars:jquery:3.6.1'
 
 	//레이아웃
 	implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect'
 
-	//비 pay 추가
+	//pay 추가
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	//chart.js 추가
+	implementation group: 'org.webjars.npm', name: 'chart.js', version: '4.3.0'
+
 
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
