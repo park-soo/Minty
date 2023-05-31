@@ -259,13 +259,13 @@
     <script>
   // AJAX 요청을 통해 서버에서 방문자 수 데이터 가져오기
   $.ajax({
-    url: '/getVisitorCounts', // 실제로 요청을 보낼 URL
+    url: '/getManagerStatistics', // 실제로 요청을 보낼 URL
     type: 'GET',
     success: function(response) {
-      const visitorData = response.data;
+      const managerStats = response.data;
 
-      const labels = visitorData.map(item => item.visitDate);
-      const counts = visitorData.map(item => item.count);
+      const labels = managerStats.map(item => item.visitDate);
+      const counts = managerStats.map(item => item.visitor);
 
       const ctx = document.getElementById('visitorChart').getContext('2d');
 

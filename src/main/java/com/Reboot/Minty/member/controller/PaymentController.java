@@ -1,5 +1,7 @@
 package com.Reboot.Minty.member.controller;
 
+import com.Reboot.Minty.manager.service.TwilioService;
+import com.Reboot.Minty.member.entity.User;
 import com.Reboot.Minty.member.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -26,9 +28,13 @@ import java.util.Base64;
 @Controller
 @RequestMapping(value = "/")
 public class PaymentController {
-
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TwilioService twilioService;
+
+
     @Value("${payment.secretKey}")
     private String secretKey;
     @Value("${payment.clientKey}")
@@ -92,9 +98,26 @@ public class PaymentController {
 
         HttpSession session = request.getSession();
         String userEmail = (String) session.getAttribute("userEmail");
-        System.out.println(userEmail);
 
         userService.updateBalance(userEmail, amount);
+
+        User user = userService.getUserInfo(userEmail);
+        String nickname = user.getNickName();
+        String mobile = user.getMobile();
+        int balance = user.getBalance();
+        System.out.println(nickname);
+        System.out.println(mobile);
+        System.out.println(balance);
+
+        // mobile 번호 형식 변경
+        if (mobile.startsWith("010")) {
+            mobile = "+82" + mobile.substring(1);
+        }
+
+        // SMS 보내는 코드
+        String message = "[Minty]\n" + nickname + " 님 " + amount + " 원 충전이 완료되었습니다.\n총 잔고 " + balance + " 원.";
+        //twilioService.sendSms(mobile, message);
+
         return "pay/success";
     }
 

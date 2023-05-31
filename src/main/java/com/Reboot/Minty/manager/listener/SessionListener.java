@@ -3,7 +3,7 @@ package com.Reboot.Minty.manager.listener;
 import com.Reboot.Minty.manager.dto.VisitorDto;
 import com.Reboot.Minty.manager.entity.Visitor;
 import com.Reboot.Minty.manager.service.VisitorService;
-import com.Reboot.Minty.manager.service.VisitorCountService;
+import com.Reboot.Minty.manager.service.ManagerStatisticsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
@@ -21,12 +21,12 @@ import java.time.LocalDate;
 public class SessionListener implements HttpSessionListener {
 
     private final VisitorService visitorService;
-    private final VisitorCountService visitorCountService;
+    private final ManagerStatisticsService managerStatisticsService;
 
     @Autowired
-    public SessionListener(VisitorService visitorService, VisitorCountService visitorCountService) {
+    public SessionListener(VisitorService visitorService, ManagerStatisticsService managerStatisticsService) {
         this.visitorService = visitorService;
-        this.visitorCountService = visitorCountService;
+        this.managerStatisticsService = managerStatisticsService;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SessionListener implements HttpSessionListener {
 
         // 방문자 수 업데이트
         LocalDate currentDate = LocalDate.now();
-        visitorCountService.updateVisitorCountByDate(currentDate);
+        managerStatisticsService.updateVisitorCountByDate(currentDate);
     }
 
     @Override
